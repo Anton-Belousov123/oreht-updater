@@ -3,7 +3,7 @@ import time
 import psycopg2
 from misc import sc
 
-def update_price_values(data):
+async def update_price_values(data):
     try:
         conn = psycopg2.connect(
             host=sc.secret.DATABASE_HOST,
@@ -32,14 +32,18 @@ def update_price_values(data):
         print("Ошибка при работе с PostgreSQL", error)
 
 
-def get_item_list():
+async def get_item_list():
     conn = psycopg2.connect(
         host=sc.secret.DATABASE_HOST,
         database=sc.secret.DATABASE_NAME,
         user=sc.secret.DATABASE_LOGIN,
         password=sc.secret.DATABASE_PASSWORD
     )
+    print('o ')
     cur = conn.cursor()
-    cur.execute(f"SELECT * FROM kamran WHERE stage=%s", ("Suggested",))
+    print('e')
+    cur.execute(f"SELECT s_article FROM kamran WHERE stage=%s", ("Suggested",))
+    print('f')
     records = cur.fetchall()
+    print('f2')
     return records
